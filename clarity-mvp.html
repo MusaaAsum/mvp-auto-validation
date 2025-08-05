@@ -172,6 +172,21 @@
             line-height: 1.7;
         }
         
+        .confidentiality-notice {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .confidentiality-notice strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+        
         .test-responses {
             margin-top: 20px;
             background: #f8f9fa;
@@ -365,8 +380,20 @@
             <div class="intro-icon">🧭</div>
             <h2 class="intro-title">Boussole Intérieure</h2>
             <p class="intro-content">Les 7 prochaines questions vont t'aider à faire le tri entre ce qui dépend de toi et ce qui ne dépend pas de toi. Pas de bonne ou mauvaise réponse - sois authentique.</p>
-            <p class="intro-content">À la fin, tu auras une synthèse claire et une action concrète à mettre en place.</p>
-            <button class="btn" onclick="startQuestionnaire()">Je suis prêt(e)</button>
+            
+            <!-- Clause de confidentialité -->
+            <div class="confidentiality-notice">
+                <strong>🔒 Confidentialité garantie</strong>
+                <p>Tes réponses restent strictement privées :</p>
+                <ul>
+                    <li>Aucune donnée n'est envoyée à un serveur</li>
+                    <li>Tout est stocké uniquement sur ton appareil</li>
+                    <li>Tu contrôles entièrement tes données</li>
+                    <li>Supprime simplement le fichier pour tout effacer</li>
+                </ul>
+            </div>
+            
+            <button class="btn" onclick="startQuestionnaire()">Je comprends et je continue</button>
         </div>
         
         <!-- Questionnaire -->
@@ -377,13 +404,20 @@
         <div id="step1" class="step">
             <h2>Étape 1: Quelle est ta situation actuelle ?</h2>
             <p class="step-content">Décris ce qui te préoccupe en ce moment, comme si tu parlais à un ami bienveillant.</p>
+            
+            <!-- Rappel confidentialité -->
+            <div class="confidentiality-notice">
+                <strong>💡 Tes données sont en sécurité</strong>
+                <p>Toutes tes réponses restent sur ton appareil. Personne d'autre ne pourra y accéder.</p>
+            </div>
+            
             <textarea id="situation" placeholder="Ex: Je me sens coincé dans mon travail..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "Je me sens dépassé par mes responsabilités professionnelles et personnelles"</p>
                 <p>2. "Mon manager me critique constamment et je ne sais pas comment réagir"</p>
-                <button class="test-btn" onclick="document.getElementById('situation').value = 'Je me sens dépassé par mes responsabilités professionnelles et personnelles'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('situation').value = 'Je me sens dépassé par mes responsabilités professionnelles et personnelles'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
@@ -398,10 +432,10 @@
             <textarea id="emotions" placeholder="Ex: Frustration, impuissance..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "De la frustration et un sentiment d'impuissance"</p>
                 <p>2. "De l'anxiété quand je pense au travail, et de la colère rentrée"</p>
-                <button class="test-btn" onclick="document.getElementById('emotions').value = 'De la frustration et un sentiment d\'impuissance'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('emotions').value = 'De la frustration et un sentiment d\'impuissance'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
@@ -416,10 +450,10 @@
             <textarea id="pensees" placeholder="Ex: 'Je n\'y arriverai jamais', 'C\'est de ma faute'..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "Je ne suis pas à la hauteur", "Je devrais tout contrôler"</p>
                 <p>2. "Si je ne réussis pas parfaitement, je vais être rejeté"</p>
-                <button class="test-btn" onclick="document.getElementById('pensees').value = 'Je ne suis pas à la hauteur, Je devrais tout contrôler'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('pensees').value = 'Je ne suis pas à la hauteur, Je devrais tout contrôler'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
@@ -471,10 +505,10 @@
             <textarea id="controle" placeholder="Ex: Mes réactions, mes choix, ma préparation..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "Ma façon de planifier ma journée, mes demandes d'aide"</p>
                 <p>2. "Ma préparation aux réunions, ma communication sur mes limites"</p>
-                <button class="test-btn" onclick="document.getElementById('controle').value = 'Ma façon de planifier ma journée, mes demandes d\'aide'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('controle').value = 'Ma façon de planifier ma journée, mes demandes d\'aide'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
@@ -489,10 +523,10 @@
             <textarea id="non-controle" placeholder="Ex: Les réactions des autres, le passé..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "Les exigences excessives de mon manager, les imprévus"</p>
                 <p>2. "Les problèmes techniques, les retards des collègues"</p>
-                <button class="test-btn" onclick="document.getElementById('non-controle').value = 'Les exigences excessives de mon manager, les imprévus'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('non-controle').value = 'Les exigences excessives de mon manager, les imprévus'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
@@ -507,10 +541,10 @@
             <textarea id="action" placeholder="Ex: Demander un feedback à mon collègue..."></textarea>
             
             <div class="test-responses">
-                <h4>Exemples de réponses pour tester :</h4>
+                <h4>Exemples de réponses pour s'inspirer :</h4>
                 <p>1. "Prioriser 3 tâches essentielles demain matin"</p>
                 <p>2. "Demander à mon équipe de prendre en charge un dossier"</p>
-                <button class="test-btn" onclick="document.getElementById('action').value = 'Prioriser 3 tâches essentielles demain matin'">Utiliser cette réponse</button>
+                <button class="test-btn" onclick="document.getElementById('action').value = 'Prioriser 3 tâches essentielles demain matin'">Utiliser cette inspiration</button>
             </div>
             
             <div class="btn-group">
