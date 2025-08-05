@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clarity - Parcours de Discernement</title>
+    <title>Clarity - Retrouve ton pouvoir d'action</title>
     <style>
         :root {
             --primary: #4361ee;
             --secondary: #f72585;
             --light: #f8f9fa;
             --dark: #212529;
+            --transition: all 0.3s ease;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,194 +23,470 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
             color: var(--dark);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        header {
+            background: linear-gradient(120deg, var(--primary) 0%, #3a0ca3 100%);
+            color: white;
+            padding: 40px 25px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(247, 37, 133, 0.4);
         }
         .step {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 35px 25px;
             display: none;
         }
         .active {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
         h2 {
             color: var(--primary);
-            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        .step-content {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
         textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            min-height: 120px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             resize: vertical;
+            font-size: 1rem;
+            transition: var(--transition);
         }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
+        textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
-        button:hover {
-            opacity: 0.9;
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
         }
         .progress-bar {
-            height: 8px;
+            height: 10px;
             background-color: #e9ecef;
-            border-radius: 4px;
+            border-radius: 5px;
             margin-bottom: 20px;
             overflow: hidden;
         }
         .progress {
             height: 100%;
-            background-color: var(--secondary);
+            background: linear-gradient(90deg, var(--secondary) 0%, #f72585 100%);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+        }
+        #intro {
+            text-align: center;
+            padding: 50px 25px;
+        }
+        .intro-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        .intro-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        .intro-content {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
         #video-container {
             display: none;
+            margin: 25px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .test-responses {
+            margin-top: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        .test-responses h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .test-btn {
+            background: #e9ecef;
+            color: var(--dark);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+        .test-btn:hover {
+            background: #dee2e6;
+        }
+        #synthese-content {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 15px;
             margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+        #synthese-content p {
+            margin-bottom: 15px;
+        }
+        .highlight {
+            background: rgba(67, 97, 238, 0.1);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            header {
+                padding: 30px 15px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="progress-bar">
-        <div class="progress" id="progress-bar"></div>
-    </div>
-
-    <div id="step1" class="step active">
-        <h2>Étape 1: Quelle est ta situation actuelle ?</h2>
-        <p>Décris ce qui te préoccupe en ce moment, comme si tu parlais à un ami bienveillant.</p>
-        <textarea id="situation" placeholder="Ex: Je me sens coincé dans mon travail..."></textarea>
-        <button onclick="nextStep(2)">Continuer</button>
-    </div>
-
-    <div id="step2" class="step">
-        <h2>Étape 2: Qu'est-ce que tu ressens ?</h2>
-        <p>Nomme les émotions que cette situation fait naître en toi.</p>
-        <textarea id="emotions" placeholder="Ex: Frustration, impuissance..."></textarea>
-        <button onclick="prevStep(1)">Retour</button>
-        <button onclick="nextStep(3)">Continuer</button>
-    </div>
-
-    <div id="step3" class="step">
-        <h2>Étape 3: Quelles pensées reviennent ?</h2>
-        <p>Note les pensées récurrentes que tu as à propos de cette situation.</p>
-        <textarea id="pensees" placeholder="Ex: 'Je n'y arriverai jamais', 'C'est de ma faute'..."></textarea>
-        <button onclick="prevStep(2)">Retour</button>
-        <button onclick="nextStep(4)">Continuer</button>
-    </div>
-
-    <div id="step4" class="step">
-        <h2>Étape 4: Distinguer ce qui dépend de toi</h2>
-        <p>Parmi tout cela, qu'est-ce qui relève vraiment de ton contrôle ?</p>
+    <div class="container">
+        <!-- Landing Page -->
+        <header id="landing">
+            <h1>Stop à la sur-réflexion. Agis où tu as le pouvoir.</h1>
+            <p class="subtitle">Parcours gratuit de 10 min pour distinguer ce que tu contrôles vraiment</p>
+            <button class="btn" onclick="showIntro()">Commencer le parcours</button>
+        </header>
         
-        <div id="video-container">
-            <div style="position:relative; padding-bottom:56.25%; height:0;">
-                <iframe 
-                    src="https://www.canva.com/design/DAGvJe6R_Io/cRfKPP-yI4TCbcFVuZ6RRw/watch?embed" 
-                    style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
-                    allowfullscreen>
-                </iframe>
+        <!-- Introduction -->
+        <div id="intro" class="step">
+            <div class="intro-icon">🧭</div>
+            <h2 class="intro-title">Boussole Intérieure</h2>
+            <p class="intro-content">Les 7 prochaines questions vont t'aider à faire le tri entre ce qui dépend de toi et ce qui ne dépend pas de toi. Pas de bonne ou mauvaise réponse - sois authentique.</p>
+            <p class="intro-content">À la fin, tu auras une synthèse claire et une action concrète à mettre en place.</p>
+            <button class="btn" onclick="startQuestionnaire()">Je suis prêt(e)</button>
+        </div>
+        
+        <!-- Questionnaire -->
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+        
+        <div id="step1" class="step">
+            <h2>Étape 1: Quelle est ta situation actuelle ?</h2>
+            <p class="step-content">Décris ce qui te préoccupe en ce moment, comme si tu parlais à un ami bienveillant.</p>
+            <textarea id="situation" placeholder="Ex: Je me sens coincé dans mon travail..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "Je me sens dépassé par mes responsabilités professionnelles et personnelles"</p>
+                <p>2. "Mon manager me critique constamment et je ne sais pas comment réagir"</p>
+                <button class="test-btn" onclick="document.getElementById('situation').value = 'Je me sens dépassé par mes responsabilités professionnelles et personnelles';">Utiliser cette réponse</button>
             </div>
-            <button onclick="hideVideo()" style="margin-top:10px; background-color: #6c757d;">
-                Fermer le tutoriel
-            </button>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="showIntro()">Retour</button>
+                <button class="btn" onclick="nextStep(2)">Continuer</button>
+            </div>
         </div>
         
-        <button onclick="showVideo()" style="background-color: #4cc9f0;">
-            Voir un exemple vidéo
-        </button>
-        
-        <textarea id="controle" placeholder="Ex: Mes réactions, mes choix, ma préparation..."></textarea>
-        <button onclick="prevStep(3)">Retour</button>
-        <button onclick="nextStep(5)">Continuer</button>
-    </div>
-
-    <div id="step5" class="step">
-        <h2>Étape 5: Définir une action concrète</h2>
-        <p>Quelle petite action peux-tz entreprendre dans les 48h ?</p>
-        <textarea id="action" placeholder="Ex: Demander un feedback à mon collègue..."></textarea>
-        <button onclick="prevStep(4)">Retour</button>
-        <button onclick="nextStep(6)">Continuer</button>
-    </div>
-
-    <div id="step6" class="step">
-        <h2>Synthèse de ton parcours</h2>
-        <div id="synthese" style="background-color: #e9f5ff; padding: 15px; border-radius: 8px; margin: 15px 0;">
-            <!-- La synthèse sera générée ici -->
+        <div id="step2" class="step">
+            <h2>Étape 2: Qu'est-ce que tu ressens ?</h2>
+            <p class="step-content">Nomme les émotions que cette situation fait naître en toi.</p>
+            <textarea id="emotions" placeholder="Ex: Frustration, impuissance..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "De la frustration et un sentiment d'impuissance"</p>
+                <p>2. "De l'anxiété quand je pense au travail, et de la colère rentrée"</p>
+                <button class="test-btn" onclick="document.getElementById('emotions').value = 'De la frustration et un sentiment d\'impuissance';">Utiliser cette réponse</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(1)">Retour</button>
+                <button class="btn" onclick="nextStep(3)">Continuer</button>
+            </div>
         </div>
-        <button onclick="prevStep(5)">Retour</button>
-        <button onclick="saveSession()">Sauvegarder ma session</button>
+        
+        <div id="step3" class="step">
+            <h2>Étape 3: Quelles pensées reviennent ?</h2>
+            <p class="step-content">Note les pensées récurrentes que tu as à propos de cette situation.</p>
+            <textarea id="pensees" placeholder="Ex: 'Je n'y arriverai jamais', 'C'est de ma faute'..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "Je ne suis pas à la hauteur", "Je devrais tout contrôler"</p>
+                <p>2. "Si je ne réussis pas parfaitement, je vais être rejeté"</p>
+                <button class="test-btn" onclick="document.getElementById('pensees').value = 'Je ne suis pas à la hauteur, Je devrais tout contrôler';">Utiliser cette réponse</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(2)">Retour</button>
+                <button class="btn" onclick="nextStep(4)">Continuer</button>
+            </div>
+        </div>
+        
+        <div id="step4" class="step">
+            <h2>Étape 4: Distinguer ce qui dépend de toi</h2>
+            <p class="step-content">Parmi tout cela, qu'est-ce qui relève vraiment de ton contrôle ?</p>
+            
+            <div id="video-container">
+                <div style="position:relative; padding-bottom:56.25%; height:0;">
+                    <iframe 
+                        src="https://www.canva.com/design/DAGvJe6R_Io/cRfKPP-yI4TCbcFVuZ6RRw/watch?embed" 
+                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <button class="test-btn" onclick="hideVideo()">Fermer le tutoriel</button>
+            </div>
+            
+            <button class="test-btn" onclick="showVideo()">Voir un exemple vidéo</button>
+            
+            <textarea id="controle" placeholder="Ex: Mes réactions, mes choix, ma préparation..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "Ma façon de planifier ma journée, mes demandes d'aide"</p>
+                <p>2. "Ma préparation aux réunions, ma communication sur mes limites"</p>
+                <button class="test-btn" onclick="document.getElementById('controle').value = 'Ma façon de planifier ma journée, mes demandes d\'aide';">Utiliser cette réponse</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(3)">Retour</button>
+                <button class="btn" onclick="nextStep(5)">Continuer</button>
+            </div>
+        </div>
+        
+        <div id="step5" class="step">
+            <h2>Étape 5: Qu'est-ce qui ne dépend pas de toi ?</h2>
+            <p class="step-content">Identifie ce qui échappe à ton contrôle, même si tu aimerais le changer.</p>
+            <textarea id="non-controle" placeholder="Ex: Les réactions des autres, le passé..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "Les exigences excessives de mon manager, les imprévus"</p>
+                <p>2. "Les problèmes techniques, les retards des collègues"</p>
+                <button class="test-btn" onclick="document.getElementById('non-controle').value = 'Les exigences excessives de mon manager, les imprévus';">Utiliser cette réponse</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(4)">Retour</button>
+                <button class="btn" onclick="nextStep(6)">Continuer</button>
+            </div>
+        </div>
+        
+        <div id="step6" class="step">
+            <h2>Étape 6: Définir une action concrète</h2>
+            <p class="step-content">Quelle petite action peux-tu entreprendre dans les 48h ?</p>
+            <textarea id="action" placeholder="Ex: Demander un feedback à mon collègue..."></textarea>
+            
+            <div class="test-responses">
+                <h4>Exemples de réponses pour tester :</h4>
+                <p>1. "Prioriser 3 tâches essentielles demain matin"</p>
+                <p>2. "Demander à mon équipe de prendre en charge un dossier"</p>
+                <button class="test-btn" onclick="document.getElementById('action').value = 'Prioriser 3 tâches essentielles demain matin';">Utiliser cette réponse</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(5)">Retour</button>
+                <button class="btn" onclick="nextStep(7)">Continuer</button>
+            </div>
+        </div>
+        
+        <div id="step7" class="step">
+            <h2>Ta synthèse de clarté</h2>
+            <div id="synthese-content">
+                <!-- La synthèse sera générée ici -->
+            </div>
+            
+            <p class="step-content">Tu peux sauvegarder cette synthèse pour y revenir plus tard.</p>
+            
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="prevStep(6)">Retour</button>
+                <button class="btn" onclick="saveSession()">Sauvegarder ma session</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        let currentStep = 1;
-        const totalSteps = 6;
+        let currentStep = 0;
+        const totalSteps = 7;
         const answers = {};
-
-        function updateProgress() {
-            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
+        
+        // Afficher la landing page par défaut
+        document.getElementById('landing').style.display = 'block';
+        
+        function showIntro() {
+            document.getElementById('landing').style.display = 'none';
+            showStep('intro');
         }
-
+        
+        function startQuestionnaire() {
+            showStep('step1');
+            currentStep = 1;
+            updateProgress();
+        }
+        
+        function showStep(stepId) {
+            // Masquer toutes les étapes
+            document.querySelectorAll('.step').forEach(step => {
+                step.style.display = 'none';
+            });
+            
+            // Afficher l'étape demandée
+            document.getElementById(stepId).style.display = 'block';
+        }
+        
         function nextStep(step) {
             // Sauvegarder la réponse actuelle
-            answers[`step${currentStep}`] = document.getElementById(
-                ['situation', 'emotions', 'pensees', 'controle', 'action'][currentStep - 1]
-            ).value;
+            if (currentStep >= 1 && currentStep <= 6) {
+                const questionIds = ['situation', 'emotions', 'pensees', 'controle', 'non-controle', 'action'];
+                answers[`step${currentStep}`] = document.getElementById(questionIds[currentStep-1]).value;
+            }
             
-            document.getElementById(`step${currentStep}`).classList.remove('active');
+            // Mettre à jour l'étape courante
             currentStep = step;
+            
+            // Masquer toutes les étapes
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Afficher la nouvelle étape
             document.getElementById(`step${step}`).classList.add('active');
-            updateProgress();
             
             // Générer la synthèse à la dernière étape
-            if (step === 6) {
+            if (step === 7) {
                 generateSynthese();
             }
+            
+            updateProgress();
+            window.scrollTo(0, 0);
         }
-
+        
         function prevStep(step) {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
+            // Pour revenir à l'intro spéciale
+            if (step === 'intro') {
+                showIntro();
+                return;
+            }
+            
             currentStep = step;
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
             document.getElementById(`step${step}`).classList.add('active');
             updateProgress();
+            window.scrollTo(0, 0);
         }
-
+        
         function showVideo() {
             document.getElementById('video-container').style.display = 'block';
         }
-
+        
         function hideVideo() {
             document.getElementById('video-container').style.display = 'none';
         }
-
+        
+        function updateProgress() {
+            if (currentStep > 0) {
+                const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            }
+        }
+        
         function generateSynthese() {
             const synthese = `
                 <h3>Récapitulatif de ta réflexion :</h3>
-                <p><strong>Situation :</strong> ${answers.step1 || 'Non renseigné'}</p>
-                <p><strong>Émotions :</strong> ${answers.step2 || 'Non renseigné'}</p>
-                <p><strong>Pensées récurrentes :</strong> ${answers.step3 || 'Non renseigné'}</p>
-                <p><strong>Ce qui dépend de toi :</strong> ${answers.step4 || 'Non renseigné'}</p>
-                <p><strong>Action concrète :</strong> ${answers.step5 || 'Non renseigné'}</p>
+                <p><span class="highlight">Situation :</span> ${answers.step1 || 'Non renseigné'}</p>
+                <p><span class="highlight">Émotions :</span> ${answers.step2 || 'Non renseigné'}</p>
+                <p><span class="highlight">Pensées récurrentes :</span> ${answers.step3 || 'Non renseigné'}</p>
+                <p><span class="highlight">Ce qui dépend de toi :</span> ${answers.step4 || 'Non renseigné'}</p>
+                <p><span class="highlight">Ce qui ne dépend pas de toi :</span> ${answers.step5 || 'Non renseigné'}</p>
+                <p><span class="highlight">Action concrète :</span> ${answers.step6 || 'Non renseigné'}</p>
                 
-                <h3 style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--primary')}; margin-top: 20px;">
-                    Prochaine étape : mets ton plan en action !
+                <h3 style="color: var(--primary); margin-top: 25px;">
+                    Ta zone de pouvoir d'action est identifiée : 
+                    <span style="color: var(--secondary);">${answers.step4 || 'tes choix actuels'}</span>
                 </h3>
+                
+                <p style="margin-top: 20px; font-size: 1.1rem;">
+                    Concentre ton énergie ici plutôt que sur ce qui t'échappe.
+                </p>
             `;
-            document.getElementById('synthese').innerHTML = synthese;
+            document.getElementById('synthese-content').innerHTML = synthese;
         }
-
+        
         function saveSession() {
             const sessionData = {
                 date: new Date().toISOString(),
@@ -222,9 +504,6 @@
             
             alert('Session sauvegardée ! Tu peux maintenant importer ce fichier dans une future version de Clarity.');
         }
-
-        // Initialiser la barre de progression
-        updateProgress();
     </script>
 </body>
 </html>
